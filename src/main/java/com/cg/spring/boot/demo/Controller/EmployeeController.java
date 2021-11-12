@@ -32,10 +32,10 @@ public class EmployeeController {
 //		return empService.getEmployeeById(eid);[]
 //	}
 //	
-	@DeleteMapping("/deleteid/{eid}")
-	private void deleteById(@PathVariable("eid")int eid) {
-		 empService.delete(eid);
-	}
+//	@DeleteMapping("/deleteid/{eid}")
+//	private void deleteById(@PathVariable("eid")int eid) {
+//		 empService.delete(eid);
+//	}
 	
 	// http://localhost:8082/addemp
 		@PostMapping("/addemp")

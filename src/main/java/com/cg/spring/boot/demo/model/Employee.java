@@ -1,9 +1,22 @@
 package com.cg.spring.boot.demo.model;
 
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "emp_table")
 public class Employee {
 
+	@Id
 	private int eid;
+
+	@Column
 	private String firstName;
+
+	@Column
 	private double salary;
 
 	public Employee() {
@@ -44,11 +57,6 @@ public class Employee {
 	@Override
 	public String toString() {
 		return "Employee [eid=" + eid + ", firstName=" + firstName + ", salary=" + salary + "]";
-	}
-
-	public static void deleteById(int id) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
