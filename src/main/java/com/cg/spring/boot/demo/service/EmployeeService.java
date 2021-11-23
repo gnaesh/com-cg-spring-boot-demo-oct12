@@ -1,16 +1,21 @@
 package com.cg.spring.boot.demo.service;
 
-
 import java.util.List;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cg.spring.boot.demo.Exception.EmployeeNotFoundException;
 import com.cg.spring.boot.demo.model.Employee;
 import com.cg.spring.boot.demo.repository.EmployeeRepository;
 
 @Service
 public class EmployeeService {
+
+	private static final Logger LOG = LoggerFactory.getLogger(EmployeeService.class);
 
 	@Autowired
 	private EmployeeRepository empRepository;
@@ -20,16 +25,69 @@ public class EmployeeService {
 		return empRepository.findAll();
 	}
 
+//	public Employee getEmployeeById(int eid) {
+//		Log.info("getEmployeeById");
+//		return empRepository.findById(eid).get();
+//	}
+
 	public Employee getEmployeeById(int eid) {
-		System.out.println("Service getEmployeeById");
-		return empRepository.findById(eid).get();
+		LOG.info("getEmployeeById");
+		Optional<Employee> empOpt = empRepository.findById(eid);
+		if (empOpt.isPresent()) {
+			LOG.info("Employee is available.");
+			return empOpt.get();
+		} else {
+			LOG.info("Employee is NOT available.");
+			throw new EmployeeNotFoundException(eid + " this employee is not found.");
+		}
 	}
 
 	public Employee addEmployee(Employee employee) {
-		return empRepository.save(employee);
+		System.out.println("Service addEmployee");
+		if (!empRepository.existsById(employee.getEid()))
+			return empRepository.save(employee);
+		System.out.println(employee.getEid() + " already exists.");
+		return null;
 	}
 
+	public Employee updateEmployee(Employee employee) {
+	LOG.info("Update EMp");
+	if (empRepository.existsById(employee.getEid())) {
+		return empRepository.save(employee);
+	} else {
+		throw new EmployeeNotFoundException(" this employee is not found.");
+	}
 }
+
+	public Employee deleteEmployeeById(int eid) {
+		LOG.info("deleteEmployeeById");
+		Optional<Employee> empOpt = empRepository.findById(eid);
+		if (empOpt.isPresent()) {
+			empRepository.deleteById(eid);
+			return empOpt.get();
+		} else {
+			throw new EmployeeNotFoundException(eid + " this employee does not exist.");
+		}
+	}
+
+	public List<Employee> getEmployeeByFirstName(String firstName) {
+		LOG.info("getEmployeeByFirstName");
+		return empRepository.findByFirstName(firstName);
+	}
+
+	public List<Employee> getEmployeeBySalaryInBetween(double salary1, double salary2) {
+		LOG.info("getEmployeeBySalaryInBetween");
+		return empRepository.findBySalaryBetween(salary1, salary2);
+		}
+	
+	public List<Employee> getEmployeeByFirstNameStartingWith(String firstName) {
+		LOG.info("ByNameStartingWith");
+		return empRepository.findByFirstNameStartingWith(firstName);
+	}
+	
+}
+
+
 
 ////@Component
 //

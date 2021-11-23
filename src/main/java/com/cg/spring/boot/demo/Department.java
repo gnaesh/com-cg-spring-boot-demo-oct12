@@ -1,4 +1,4 @@
-package com.cg.spring.boot.demo.model;
+package com.cg.spring.boot.demo;
 
 import java.io.Serializable;
 

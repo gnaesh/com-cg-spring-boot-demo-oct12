@@ -12,7 +12,7 @@ public class Hello {
 	
     @RequestMapping("/hello")
     public String hello() {
-        System.out.println("hello");
+        LOG.info("hello");
         return "Hello world!";
     }
     
